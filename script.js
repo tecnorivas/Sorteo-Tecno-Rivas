@@ -1,5 +1,5 @@
 // === PEGÁ TU LINK NUEVO DE GOOGLE APPS SCRIPT AQUÍ ===
-const ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbxM-qPZuXBhYplODdA3crZOgAblompAfkUX3ZPHoSKYtaWxIOrXTOXfYFf9k9RKkDOpWw/exec";
+const ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbw4BsLTOsZz4ijtZAl2J3xk0q2T5mugQ2XMYOD3O0cDp1TH1dtXbsDrtKN151p9bsXcQw/exec";
 
 const form = document.getElementById('f');
 const btn = document.getElementById('btn');
@@ -28,31 +28,33 @@ form.addEventListener('submit', async (e) => {
     return;
   }
 
-  // Animación de carga
   btn.disabled = true; 
-  btnText.textContent = 'Procesando...';
+  btnText.textContent = 'Verificando...';
   btnIcon.className = 'fa-solid fa-spinner fa-spin'; 
 
   try {
-    // Hacemos UN SOLO viaje al servidor
-    const res = await fetch(ENDPOINT_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain' },
-      body: JSON.stringify({ cedula, telefono, factura, total })
-    });
-    
-    // Leemos qué nos respondió Google
-    const respuestaServer = await res.json();
+    // 1. Verificamos si la factura ya existe usando GET (esto pasa sin bloqueos)
+    const resGet = await fetch(ENDPOINT_URL, { redirect: 'follow' });
+    const facturasUsadas = await resGet.json();
 
-    // Si Google dice que ya existe, lo bloqueamos
-    if (respuestaServer.estado === "duplicado") {
+    if (facturasUsadas.includes(factura)) {
       msg.className = 'show error';
       msg.innerHTML = '<i class="fa-solid fa-ban"></i> ¡Esta factura ya está registrada!';
       resetBoton();
       return;
     }
 
-    // Si Google dice que fue un éxito, lanzamos el confeti
+    btnText.textContent = 'Guardando...';
+
+    // 2. Si está libre, la guardamos con no-cors para evitar el error de red
+    await fetch(ENDPOINT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify({ cedula, telefono, factura, total })
+    });
+    
+    // 3. ¡Éxito total! Mostramos pantalla de éxito y confeti
     document.getElementById('formWrap').style.display = 'none';
     document.getElementById('done').classList.add('show');
     lanzarConfeti();
