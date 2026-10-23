@@ -1,5 +1,5 @@
 // PEGÁ AQUÍ TU URL DE GOOGLE APPS SCRIPT
-const ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbzljmPwG9oBFjRTv8WKJAd-udRVh4cQ9lhZP_ZmKm-DJkhJSinx-zKcXhN4E7-Xr3vG5A/exec";
+const ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbyMeyqzDS-D-Hr4FbtTHFBKtiSTrpgEDa1zfCwhxrSD2DgDno_sE4YJgTgHhuS3ailG/exec";
 
 const form = document.getElementById('f');
 const btn = document.getElementById('btn');
@@ -17,31 +17,29 @@ form.addEventListener('submit', async (e) => {
 
   if (isNaN(total) || total < 1500) {
     msg.className = 'show error';
-    msg.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> El total debe ser un número igual o mayor a C$ 1,500.00.';
+    msg.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> El total debe ser de al menos C$ 1,500.00 para participar.';
     return;
   }
 
   btn.disabled = true;
-  btn.innerHTML = '<span>Procesando...</span> <i class="fa-solid fa-spinner fa-spin"></i>';
+  btn.innerHTML = '<span>Guardando Factura...</span> <i class="fa-solid fa-spinner fa-spin"></i>';
 
   try {
-    // Enviamos directo a Google Sheets sin trancarse con restricciones de origen
     await fetch(ENDPOINT_URL, {
       method: 'POST',
       mode: 'no-cors',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
+        'Content-Type': 'text/plain'
       },
       body: JSON.stringify({ cedula, telefono, factura, total })
     });
 
-    // Éxito inmediato
     document.getElementById('formWrap').style.display = 'none';
     document.getElementById('done').classList.add('show');
     
     if (typeof confetti === 'function') {
       confetti({
-        particleCount: 80,
+        particleCount: 100,
         spread: 70,
         origin: { y: 0.6 }
       });
@@ -49,8 +47,8 @@ form.addEventListener('submit', async (e) => {
 
   } catch (err) {
     msg.className = 'show error';
-    msg.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Ocurrió un inconveniente. Intentalo de nuevo.';
+    msg.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Error de conexión. Revisá tu internet e intentá de nuevo.';
     btn.disabled = false;
-    btn.innerHTML = '<span>Participar Ahora</span> <i class="fa-solid fa-paper-plane"></i>';
+    btn.innerHTML = '<span>Registrar Factura</span> <i class="fa-solid fa-paper-plane"></i>';
   }
 });
