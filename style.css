@@ -9,66 +9,102 @@
 
 body {
   min-height: 100vh;
-  background: #0b1329;
+  background: #091224;
   background-image: 
-    radial-gradient(circle at 10% 20%, rgba(26, 86, 219, 0.25) 0%, transparent 40%),
-    radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.15) 0%, transparent 40%);
+    radial-gradient(circle at 15% 15%, rgba(37, 99, 235, 0.25) 0%, transparent 45%),
+    radial-gradient(circle at 85% 85%, rgba(245, 158, 11, 0.2) 0%, transparent 45%);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px 15px;
   color: #0f172a;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Útiles flotantes de fondo */
+.school-decorations .float-item {
+  position: absolute;
+  color: rgba(255, 255, 255, 0.07);
+  font-size: 2.5rem;
+  z-index: 0;
+  animation: floatAnim 10s infinite ease-in-out alternate;
+}
+
+.p1 { top: 8%; left: 8%; animation-delay: 0s; }
+.p2 { top: 75%; left: 10%; animation-delay: 2s; }
+.p3 { top: 12%; right: 10%; animation-delay: 4s; }
+.p4 { top: 80%; right: 12%; animation-delay: 1s; }
+.p5 { top: 45%; right: 5%; animation-delay: 3s; }
+
+@keyframes floatAnim {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(-25px) rotate(15deg); }
 }
 
 .container {
   width: 100%;
-  max-width: 460px;
+  max-width: 450px;
+  z-index: 1;
 }
 
 .card {
   background: #ffffff;
-  border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+  border-radius: 24px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: transform 0.3s ease;
 }
 
-.banner-container {
-  width: 100%;
-  background: #002e70;
+.banner-school {
+  background: linear-gradient(135deg, #002e70 #1e40af, #2563eb);
+  padding: 30px 20px;
+  text-align: center;
+  color: #ffffff;
+  position: relative;
+}
+
+.badge-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(245, 158, 11, 0.25);
+  border: 1px solid #f59e0b;
+  color: #fef08a;
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.school-icons-hero {
+  font-size: 2.2rem;
+  color: #f59e0b;
   display: flex;
   justify-content: center;
-  align-items: center;
+  gap: 18px;
+  margin-bottom: 10px;
 }
 
-.banner-img {
-  width: 100%;
-  max-height: 220px;
-  object-fit: contain;
-  display: block;
-}
-
-.card-header {
-  padding: 24px 24px 10px;
-  text-align: center;
-}
-
-.card-header h1 {
-  font-size: 1.6rem;
+.banner-school h1 {
+  font-size: 1.7rem;
   font-weight: 800;
-  color: #002e70;
   letter-spacing: -0.5px;
 }
 
-.card-header p {
-  color: #64748b;
-  font-size: 0.9rem;
+.banner-school p {
+  color: #cbd5e1;
+  font-size: 0.88rem;
   margin-top: 4px;
 }
 
+.card-body {
+  padding: 24px;
+}
+
 form {
-  padding: 0 24px 28px;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -90,7 +126,7 @@ label {
 }
 
 label i {
-  color: #1a56db;
+  color: #2563eb;
 }
 
 input {
@@ -106,15 +142,18 @@ input {
 }
 
 input:focus {
-  border-color: #1a56db;
+  border-color: #2563eb;
   background: #ffffff;
-  box-shadow: 0 0 0 4px rgba(26, 86, 219, 0.12);
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
 }
 
 .hint {
   font-size: 0.75rem;
-  color: #94a3b8;
+  color: #64748b;
   margin-top: 2px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 button[type="submit"] {
@@ -122,7 +161,7 @@ button[type="submit"] {
   padding: 15px;
   border: none;
   border-radius: 12px;
-  background: linear-gradient(135deg, #1a56db, #002e70);
+  background: linear-gradient(135deg, #2563eb, #002e70);
   color: #ffffff;
   font-size: 1.05rem;
   font-weight: 700;
@@ -131,14 +170,13 @@ button[type="submit"] {
   justify-content: center;
   align-items: center;
   gap: 10px;
-  box-shadow: 0 8px 18px rgba(26, 86, 219, 0.35);
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.35);
   transition: all 0.2s ease;
 }
 
 button[type="submit"]:hover:not(:disabled) {
   transform: translateY(-2px);
-  background: linear-gradient(135deg, #2563eb, #1e40af);
-  box-shadow: 0 12px 22px rgba(26, 86, 219, 0.45);
+  box-shadow: 0 12px 22px rgba(37, 99, 235, 0.45);
 }
 
 button:disabled {
@@ -176,17 +214,17 @@ button:disabled {
 }
 
 .done-badge {
-  width: 80px;
-  height: 80px;
+  width: 85px;
+  height: 85px;
   background: #fef3c7;
   color: #d97706;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2.5rem;
+  font-size: 2.8rem;
   margin: 0 auto 20px;
-  box-shadow: 0 10px 20px rgba(217, 119, 6, 0.2);
+  box-shadow: 0 10px 20px rgba(217, 119, 6, 0.25);
 }
 
 .done h1 {
